@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import Header from "../Header";
 
 function MainLayout() {
   return (
-    <div>
-      MainLayout
+    <div className="flex flex-col w-full h-screen justify-center items-center">
+      <Header />
       <Outlet />
     </div>
   );
