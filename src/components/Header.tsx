@@ -55,7 +55,10 @@ function Header() {
           </span>
           님
         </p>
-        <div className="h-full aspect-square bg-gray-300 rounded-full"></div>
+        <img
+          src={user.avatar ? user.avatar : "../src/assets/mypage_line.svg"}
+          className="h-full aspect-square bg-black/30 rounded-full"
+        />
       </div>
     </div>
   );

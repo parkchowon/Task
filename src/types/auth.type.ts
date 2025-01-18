@@ -26,7 +26,7 @@ export type LoginUserResponseType = {
   nickname: string;
 };
 
-//회원 정보를 받는 값
+// 회원 정보를 받는 값
 export type GetUserResponseType = {
   id: string;
   nickname: string;
@@ -34,8 +34,8 @@ export type GetUserResponseType = {
   success: boolean;
 };
 
-//AuthInput 컴포넌트의 props
-export type AuthInputProps = {
+// Input 컴포넌트의 props
+export type InputProps = {
   type: string;
   name: string;
   value: string;
@@ -43,7 +43,7 @@ export type AuthInputProps = {
   isPassword?: boolean;
 };
 
-//useUserStore type
+// useUserStore type
 export type UserStoreType = {
   user: {
     nickname: string;

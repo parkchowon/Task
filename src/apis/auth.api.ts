@@ -58,4 +58,14 @@ export const getUser = async (): Promise<GetUserResponseType | null> => {
   return null;
 };
 
-export const patchUserProfile = async () => {};
+// 유저 프로필 변경
+export const patchUserProfile = async (formData: FormData) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const response = await axios.patch(`${API_URL}/profile`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return response.data;
+};
