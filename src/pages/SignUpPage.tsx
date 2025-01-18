@@ -72,7 +72,7 @@ function SignUpPage() {
         <p className="text-sm text-center">
           이미 계정이 있으신가요?{" "}
           <button
-            className="underline underline-offset-2"
+            className="underline underline-offset-2 hover:text-sky-600"
             onClick={() => navigate("/auth/signin")}
           >
             로그인하러

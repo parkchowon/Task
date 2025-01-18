@@ -1,7 +1,7 @@
 export type RegisterBodyType = {
-  nickname: string;
   id: string;
   password: string;
+  nickname: string;
 };
 
 export type CreateUserResponse = {

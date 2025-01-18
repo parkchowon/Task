@@ -17,7 +17,7 @@ function AuthInput({
       name={name}
       value={value}
       onChange={handleInputChange}
-      className="py-3 px-5 border border-gray-500 rounded-full outline-none text-sm w-72"
+      className="w-72 py-3 px-5 rounded-full bg-black/10 outline-none text-sm placeholder:text-white focus:border-sky-700"
       placeholder={`${type}(을)를 입력하세요`}
     />
   );

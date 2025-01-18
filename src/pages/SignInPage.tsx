@@ -36,7 +36,7 @@ function SignInPage() {
       <p className="text-sm text-center">
         계정이 없으신가요?{" "}
         <button
-          className="underline underline-offset-2"
+          className="underline underline-offset-2 hover:text-sky-600"
           onClick={() => navigate("/auth/signup")}
         >
           회원가입
