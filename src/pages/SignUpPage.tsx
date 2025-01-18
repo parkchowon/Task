@@ -26,7 +26,6 @@ function SignUpPage() {
       password: formData.password,
       nickname: formData.password,
     });
-    console.log(result);
     if (result.success) {
       return navigate("/");
     }
