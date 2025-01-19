@@ -3,6 +3,9 @@ import SubmitBtn from "../components/Buttons/SubmitBtn";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createUser } from "../apis/auth.api";
+import { useMutation } from "@tanstack/react-query";
+import { RegisterBodyType } from "../types/auth.type";
+import * as Sentry from "@sentry/react";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -13,21 +16,27 @@ function SignUpPage() {
     confirmPassword: "",
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({ id, password, nickname }: RegisterBodyType) =>
+      createUser({ id, password, nickname }),
+    onSuccess: () => {
+      return navigate("/auth/signin");
+    },
+    onError: (error) => {
+      Sentry.captureException(error.message);
+    },
+  });
+
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       return confirm("비밀번호가 체크한 것과 다릅니다.");
     }
-    const result = await createUser({
+    mutate({
       id: formData.id,
       password: formData.password,
-      nickname: formData.password,
+      nickname: formData.nickname,
     });
-    if (result.success) {
-      return navigate("/");
-    } else {
-      throw new Error(result.message);
-    }
   };
 
   const handleInputChange = (name: string, value: string) => {
@@ -36,6 +45,14 @@ function SignUpPage() {
       [name]: value,
     }));
   };
+
+  if (isPending) {
+    return (
+      <div className="fixed flex inset-0 bg-black/40 items-center justify-center">
+        <p className="text-white font-bold">loading...</p>
+      </div>
+    );
+  }
 
   return (
     <section className="flex flex-col gap-3">

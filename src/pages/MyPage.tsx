@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useUserStore } from "../stores/user.store";
 import { getUser, patchUserProfile } from "../apis/auth.api";
 import { useEffect, useState } from "react";
@@ -12,6 +12,13 @@ function MyPage() {
   const [profileUrl, setProfileUrl] = useState<string>(user.avatar);
 
   const [file, setFile] = useState<File | null>(null);
+
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: (formData: FormData) => patchUserProfile(formData),
+    onError: (error) => {
+      throw new Error(error.message);
+    },
+  });
 
   const navigate = useNavigate();
   const { data, isPending } = useQuery({
@@ -63,10 +70,10 @@ function MyPage() {
       formData.append("avatar", file);
     }
     formData.append("nickname", nickname);
-    await patchUserProfile(formData);
+    mutate(formData);
   };
 
-  if (isPending)
+  if (isPending || isLoading)
     return (
       <div className="fixed flex inset-0 bg-black/40 items-center justify-center">
         <p className="text-white font-bold">loading...</p>

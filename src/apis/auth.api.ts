@@ -12,13 +12,16 @@ const API_URL = import.meta.env.VITE_API_URL;
 // 회원가입
 export const createUser = async (
   userData: RegisterBodyType
-): Promise<CreateUserResponseType> => {
+): Promise<CreateUserResponseType | null> => {
   try {
     const response = await axios.post(`${API_URL}/register`, userData);
     const result = response.data;
+    if (!result.success) {
+      throw new Error(result.message);
+    }
     return result;
   } catch (error) {
-    return { message: "회원가입 요청 실패", success: false };
+    throw new Error(`${error}`);
   }
 };
 
@@ -29,9 +32,12 @@ export const signInUser = async (
   try {
     const response = await axios.post(`${API_URL}/login`, userData);
     const result = response.data;
+    if (!result.success) {
+      throw new Error(result.message);
+    }
     return result;
   } catch (error) {
-    return null;
+    throw new Error(`${error}`);
   }
 };
 

@@ -3,6 +3,9 @@ import SubmitBtn from "../components/Buttons/SubmitBtn";
 import AuthInput from "../components/Inputs/AuthInput";
 import { useState } from "react";
 import { signInUser } from "../apis/auth.api";
+import { useMutation } from "@tanstack/react-query";
+import { LoginBodyType } from "../types/auth.type";
+import * as Sentry from "@sentry/react";
 
 function SignInPage() {
   const navigate = useNavigate();
@@ -11,19 +14,24 @@ function SignInPage() {
     password: "",
   });
 
+  const { mutate, isPending, data } = useMutation({
+    mutationFn: ({ id, password }: LoginBodyType) =>
+      signInUser({ id, password }),
+    onSuccess: () => {
+      navigate("/");
+      if (data) {
+        localStorage.setItem("accessToken", data.accessToken);
+      }
+    },
+    onError: () => {
+      Sentry.captureException("로그인 실패");
+    },
+  });
+
   // submit 버튼 클릭 로직
   const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await signInUser({
-      id: formData.id,
-      password: formData.password,
-    });
-    if (result?.success) {
-      navigate("/");
-      localStorage.setItem("accessToken", result.accessToken);
-    } else {
-      throw new Error("로그인 실패");
-    }
+    mutate({ id: formData.id, password: formData.password });
   };
 
   // input change 함수
@@ -33,6 +41,14 @@ function SignInPage() {
       [name]: value,
     }));
   };
+
+  if (isPending) {
+    return (
+      <div className="fixed flex inset-0 bg-black/40 items-center justify-center">
+        <p className="text-white font-bold">loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3">
