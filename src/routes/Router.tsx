@@ -5,6 +5,7 @@ import HomePage from "../pages/HomePage";
 import MyPage from "../pages/MyPage";
 import SignUpPage from "../pages/SignUpPage";
 import SignInPage from "../pages/SignInPage";
+import ProtectRouter from "./ProtectRouter";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,11 @@ const router = createBrowserRouter([
       },
       {
         path: "mypage",
-        element: <MyPage />,
+        element: (
+          <ProtectRouter>
+            <MyPage />
+          </ProtectRouter>
+        ),
       },
     ],
   },

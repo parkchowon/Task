@@ -4,8 +4,9 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
+    "module": "ES2020",
     "skipLibCheck": true,
+    "types": ["jest", "@testing-library/jest-dom", "vite/client"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -20,7 +21,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src", "jest.setup.ts"]
 }
