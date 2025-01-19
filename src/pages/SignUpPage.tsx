@@ -15,12 +15,9 @@ function SignUpPage() {
 
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(
-      formData.id,
-      formData.password,
-      formData.nickname,
-      formData.confirmPassword
-    );
+    if (formData.password !== formData.confirmPassword) {
+      return confirm("비밀번호가 체크한 것과 다릅니다.");
+    }
     const result = await createUser({
       id: formData.id,
       password: formData.password,
@@ -28,6 +25,8 @@ function SignUpPage() {
     });
     if (result.success) {
       return navigate("/");
+    } else {
+      throw new Error(result.message);
     }
   };
 
@@ -39,8 +38,8 @@ function SignUpPage() {
   };
 
   return (
-    <form onSubmit={handleSignUpSubmit}>
-      <div className="flex flex-col gap-3">
+    <section className="flex flex-col gap-3">
+      <form className="flex flex-col gap-3" onSubmit={handleSignUpSubmit}>
         <AuthInput
           type="닉네임"
           name="nickname"
@@ -68,17 +67,17 @@ function SignUpPage() {
           isPassword
         />
         <SubmitBtn type="회원가입" />
-        <p className="text-sm text-center">
-          이미 계정이 있으신가요?{" "}
-          <button
-            className="underline underline-offset-2 hover:text-sky-600"
-            onClick={() => navigate("/auth/signin")}
-          >
-            로그인하러
-          </button>
-        </p>
-      </div>
-    </form>
+      </form>
+      <p className="text-sm text-center">
+        이미 계정이 있으신가요?{" "}
+        <button
+          className="underline underline-offset-2 hover:text-sky-600"
+          onClick={() => navigate("/auth/signin")}
+        >
+          로그인하러
+        </button>
+      </p>
+    </section>
   );
 }
 

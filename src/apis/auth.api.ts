@@ -7,8 +7,7 @@ import {
   RegisterBodyType,
 } from "../types/auth.type";
 
-// const API_URL = import.meta.env.VITE_API_URL;
-const API_URL = "https://moneyfulpublicpolicy.co.kr";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // 회원가입
 export const createUser = async (
@@ -19,7 +18,6 @@ export const createUser = async (
     const result = response.data;
     return result;
   } catch (error) {
-    console.error(error);
     return { message: "회원가입 요청 실패", success: false };
   }
 };
@@ -33,7 +31,6 @@ export const signInUser = async (
     const result = response.data;
     return result;
   } catch (error) {
-    console.error(error);
     return null;
   }
 };
